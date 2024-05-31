@@ -1,14 +1,16 @@
-import { Pinecone } from "@pinecone-database/pinecone";
-import { OpenAIEmbeddings } from "langchain/embeddings/openai";
-import { ChatOpenAI } from "langchain/chat_models/openai";
+import { Pinecone } from '@pinecone-database/pinecone';
+import { OpenAIEmbeddings } from "@langchain/openai";
+import { ChatOpenAI } from "@langchain/openai";
+
 
 export const getPineconeIndex = () => {
 
-    const pineconeApiKey = process.env.PINECONE_API_KEY;
-    const pineconeIndex = process.env.PINECONE_INDEX;
+    const pineconeApiKey = process.env.PINECONE_API_KEY
+    const pineconeIndex = process.env.PINECONE_INDEX_NAME;
+    console.log(pineconeIndex);
 
     if (!pineconeApiKey || !pineconeIndex) {
-        throw new Error("All env variable not found while getting pinecone index");
+        throw new Error("pineconeApiKey or pineconeIndex not found")
     }
 
     const pinecone = new Pinecone({
@@ -26,7 +28,7 @@ export const getEmbeddings = () => {
     const azureOpenAIApiDeploymentName = process.env.AZURE_OPENAI_EMBEDDING_DEPLOYMENT_NAME;
 
     if (!azureOpenAIApiKey || !azureOpenAIApiVersion || !azureOpenAIApiInstanceName || !azureOpenAIApiDeploymentName) {
-        // return next(new ErrorHandler("All env variable not found while getting Embeddings", 500));
+        throw new Error("All env variable not found while getting Embeddings");
     }
 
     const embeddings = new OpenAIEmbeddings({
@@ -47,16 +49,15 @@ export const getChatLLM = (tokenUsage: { tokens: number, totalTokenCount: number
     const azureOpenAIApiDeploymentName = process.env.AZURE_OPENAI_CHAT_DEPLOYMENT_NAME;
 
     if (!azureOpenAIApiKey || !azureOpenAIApiVersion || !azureOpenAIApiInstanceName || !azureOpenAIApiDeploymentName) {
-        // return next(new ErrorHandler("All env variable not found while getting ChatLLM", 500));
+        throw new Error("All env variable not found while getting ChatLLM")
     }
     let totalTokenCount = 0;
     const llm = new ChatOpenAI({
         temperature: 0.5,
         maxTokens: 200,
-        azureOpenAIApiKey: azureOpenAIApiKey,
-        azureOpenAIApiVersion: azureOpenAIApiVersion,
-        azureOpenAIApiInstanceName: azureOpenAIApiInstanceName,
-        azureOpenAIApiDeploymentName: azureOpenAIApiDeploymentName,
+        azureOpenAIApiKey,
+        azureOpenAIApiInstanceName,
+        azureOpenAIApiDeploymentName,
         callbacks: [
             {
                 handleLLMEnd: (val: any) => {
