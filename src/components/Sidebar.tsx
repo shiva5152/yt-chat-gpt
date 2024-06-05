@@ -50,10 +50,7 @@ const Sidebar = ({
         </ul>
       </div>
       <div className="h-[10vh] relative bottom-0 flex items-center px-5">
-        <button
-          onClick={() => {}}
-          className="flex items-center gap-1 text-black "
-        >
+        <button className="flex items-center gap-1 text-black ">
           <span className="h-6 w-6 mt-2">
             <MdCardMembership />
           </span>

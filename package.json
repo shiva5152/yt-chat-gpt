@@ -17,6 +17,7 @@
     "@pinecone-database/pinecone": "^2.2.0",
     "i": "^0.3.7",
     "langchain": "^0.1.36",
+    "mongoose": "^8.4.1",
     "next": "14.2.2",
     "next-themes": "^0.3.0",
     "npm": "^10.5.2",

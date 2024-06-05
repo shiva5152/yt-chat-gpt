@@ -2,8 +2,8 @@ import { toast } from 'react-toastify';
 
 const notifySuccess = (message: string) =>
     toast.success(message, {
-        position: 'top-center',
-        autoClose: 1200,
+        position: "bottom-right",
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -13,8 +13,8 @@ const notifySuccess = (message: string) =>
 
 const notifyError = (message: string) =>
     toast.error(message, {
-        position: 'top-center',
-        autoClose: 1200,
+        position: 'bottom-right',
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -23,8 +23,8 @@ const notifyError = (message: string) =>
     });
 const notifyWarn = (message: string) =>
     toast.warn(message, {
-        position: 'top-center',
-        autoClose: 1200,
+        position: 'bottom-right',
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
@@ -33,8 +33,8 @@ const notifyWarn = (message: string) =>
     });
 const notifyInfo = (message: string) =>
     toast.info(message, {
-        position: 'top-center',
-        autoClose: 1200,
+        position: 'bottom-right',
+        autoClose: 2500,
         hideProgressBar: false,
         closeOnClick: true,
         pauseOnHover: true,
