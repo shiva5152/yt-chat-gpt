@@ -11,10 +11,10 @@ export const POST = async (request: NextRequest) => {
 
     try {
         const body = await request.json()
-        const { url } = body;
+        const { videoId } = body;
 
         const transcriptResponse = await YoutubeTranscript.fetchTranscript(
-            url, { lang: "en" }
+            videoId, { lang: "en" }
         );
         if (!transcriptResponse) {
             return errorResponse("Failed to fetch transcript!")
@@ -57,7 +57,7 @@ export const POST = async (request: NextRequest) => {
             embeddings,
             {
                 pineconeIndex: pineconeIndex,
-                // namespace: candidateId
+                namespace: videoId
             }
         );
 

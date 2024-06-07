@@ -17,8 +17,6 @@ const video = new mongoose.Schema<TVideo>(
                 ref: "User",
             }
         ]
-
-
     },
     { timestamps: true }
 );

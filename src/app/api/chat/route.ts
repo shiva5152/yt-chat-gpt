@@ -12,10 +12,15 @@ export const GET = async (request: NextRequest) => {
 
     const { searchParams } = new URL(request.url);
     const question = searchParams.get("query");
+    const videoId = searchParams.get("videoId");
+
 
     try {
         if (!question) {
             return errorResponse("query not found", 400);
+        }
+        if (!videoId) {
+            return errorResponse("videoId found", 400);
         }
         if (question.length > 250) {
             return errorResponse("query could not exceed the 250 character limit", 400);
@@ -58,8 +63,8 @@ export const GET = async (request: NextRequest) => {
         const vectorStore = await PineconeStore.fromExistingIndex(
             embeddings,
             {
-                pineconeIndex
-                // namespace,
+                pineconeIndex,
+                namespace: videoId,
             }
         );
         const retriever = vectorStore.asRetriever();

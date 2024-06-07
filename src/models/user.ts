@@ -6,10 +6,12 @@ const user = new mongoose.Schema<TUser>(
         email: {
             type: String,
             required: true,
+            unique: true,
         },
         userId: {
             type: String,
             required: true,
+            unique: true,
         },
         tokenLeft: {
             type: Number,

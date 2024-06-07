@@ -6,5 +6,5 @@ type Conversation = {
 export type TChat = {
     userId: string;
     videoId: number;
-    conversations?: Conversation[];
+    conversations: Conversation[];
 }
