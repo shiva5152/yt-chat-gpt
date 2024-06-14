@@ -7,7 +7,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-const ChatProvider = () => {
+const ChatProvider = ({ children }: { children: React.ReactNode }) => {
   const [isAddVideo, setAddVideo] = useState(false);
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
@@ -57,7 +57,8 @@ const ChatProvider = () => {
           <Sidebar setAddVideo={setAddVideo} />
           <div className="flex flex-col w-full">
             <Navbar />
-            <div className=" text-red-950">Hello</div>
+            {/* <Chat /> */}
+            {children}
             {isAddVideo && <AddVideo setAddVideo={setAddVideo} />}
           </div>
         </>

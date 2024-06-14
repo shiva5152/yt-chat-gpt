@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import ChatLoader from "./ChatLoader";
+import useChatScroll from "./hooks/useChatScroll";
 
 const ChatMessage = ({ message }: { message: any }) => {
   return (
@@ -90,20 +91,20 @@ const page = () => {
       user: "gpt",
       msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
     },
+    {
+      user: "client",
+      msg: "give me an example",
+    },
+    {
+      user: "gpt",
+      msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
+    },
+    {
+      user: "gpt",
+      msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
+    },
   ]);
-  const chatContainerRef = useRef(null);
-  const scrollToBottom = () => {
-    const container = chatContainerRef.current as HTMLDivElement | null;
-    if (container) {
-      const scrollHeight = container.scrollHeight;
-      const clientHeight = container.clientHeight;
-      container.scrollTo({
-        top: scrollHeight - clientHeight,
-        behavior: "smooth",
-      });
-      // container.scrollTop = container.scrollHeight;
-    }
-  };
+  const chatContainerRef = useChatScroll(chatLog);
 
   const handleSubmit = async () => {
     if (userText === "") return;
@@ -119,8 +120,10 @@ const page = () => {
     ]);
     setUserText("");
     console.log(userText);
-    setLoading(true);
-    const res = await postData(`/api/chat?query=${userText}`);
+    setLoading(true); //_0D5lXDjNpw
+    const res = await postData(
+      `/api/chat?query=${userText}&videoId=${"_0D5lXDjNpw"}`
+    );
     // setTokens(res.token_count);
     console.log(res);
 
@@ -152,7 +155,8 @@ const page = () => {
     >
       <div
         ref={chatContainerRef}
-        className="styled-scrollbar px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
+        style={{ scrollBehavior: "smooth" }}
+        className="styled-scrollbar  px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
       >
         {chatLog?.length > 0 &&
           chatLog.map((obj, index) => {
@@ -200,9 +204,9 @@ const postData = async (url: string) => {
   try {
     const response = await fetch(url);
 
-    if (!response.ok) {
-      throw new Error(`Request failed with status: ${response.status}`);
-    }
+    // if (!response.ok) {
+    //   throw new Error(`Request failed with status: ${response.status}`);
+    // }
 
     const responseData = await response.json();
     console.log(responseData, "responseData");

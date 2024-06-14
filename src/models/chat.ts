@@ -8,7 +8,7 @@ const chat = new mongoose.Schema<TChat>(
             required: true,
         },
         videoId: {
-            type: Number,
+            type: String,
             required: true,
         },
         conversations: [

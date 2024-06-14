@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 type Conversation = {
     query: string;
     gptReply: string;
@@ -5,6 +6,6 @@ type Conversation = {
 
 export type TChat = {
     userId: string;
-    videoId: number;
+    videoId: string;
     conversations: Conversation[];
-}
+} & mongoose.Document;

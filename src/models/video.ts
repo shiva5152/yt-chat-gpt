@@ -21,6 +21,6 @@ const video = new mongoose.Schema<TVideo>(
     { timestamps: true }
 );
 
-const Video = mongoose.models.Video || mongoose.model('Video', video);
+const Video = mongoose.models.Video || mongoose.model<TVideo>('Video', video);
 
 export default Video;

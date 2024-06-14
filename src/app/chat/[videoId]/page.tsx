@@ -6,6 +6,7 @@ import { notifyError } from "@/utils/toast";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import Chat from "@/components/Chat";
 
 const ChatProvider = () => {
   const [isAddVideo, setAddVideo] = useState(false);
@@ -57,7 +58,7 @@ const ChatProvider = () => {
           <Sidebar setAddVideo={setAddVideo} />
           <div className="flex flex-col w-full">
             <Navbar />
-            <div className=" text-red-950">Hello</div>
+            <Chat />
             {isAddVideo && <AddVideo setAddVideo={setAddVideo} />}
           </div>
         </>

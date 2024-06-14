@@ -28,7 +28,7 @@ const AddVideo = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ url: extractYouTubeVideoID(link) }),
+        body: JSON.stringify({ videoId: extractYouTubeVideoID(link) }),
       });
 
       const result = await response.json();

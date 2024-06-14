@@ -7,7 +7,6 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import errorResponse from "@/app/lib/errorResponse";
 
-
 export const GET = async (request: NextRequest) => {
 
     const { searchParams } = new URL(request.url);
@@ -38,11 +37,11 @@ export const GET = async (request: NextRequest) => {
 
         const standaloneQuestionTemplate = 'Given a question, convert it to a standalone question. question: {question} standalone question:'
 
-        const answerTemplate = `You are a helpful and enthusiastic science teacher who can answer a given question about
-                                science based on the context provided. Try to find the answer in the context.
+        const answerTemplate = `You are a helpful and enthusiastic teacher who can answer a given question about the topic
+                                 based on the context provided. Try to find the answer in the context.
                                 If you really don't know the answer, say "I'm sorry, I don't know the answer to that."
                                 Don't try to make up an answer.
-                                Always speak as if you were chatting to a student who is curious about the science.
+                                Always speak as if you were chatting to a student who is curious about the his topic.
                                 context: {context}
                                 question: {question}
                                 answer: `
@@ -91,6 +90,8 @@ export const GET = async (request: NextRequest) => {
         const response = await chain.invoke({
             question
         });
+
+        // const chatLog= 
 
         return NextResponse.json({
             success: true,
