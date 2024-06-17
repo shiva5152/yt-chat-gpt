@@ -45,7 +45,7 @@ const AddVideo = ({
   };
   return (
     <div className=" h-screen transition-all duration-500 ease-in-out fixed inset-0 backdrop-blur-[5px] w-full  flex justify-center items-center">
-      <div className="flex relative border-[1px] border-[#d3d3d3] p-10 rounded-lg bg-[#eaeaea] justify-center items-center">
+      <div className="flex relative border-[1px] border-[#d3d3d3] p-10 rounded-lg bg-white justify-center items-center">
         <div className="absolute top-5 right-5">
           <button onClick={() => setAddVideo(false)}>
             <IoCloseOutline className="h-6 w-6 text-black" />
@@ -63,7 +63,7 @@ const AddVideo = ({
           />
         </div>
         <div className="flex justify-end h-full gap-5 flex-col px-5">
-          <div className="text-black">
+          <div className="text-[#6e7191]">
             <h4 className="flex items-center gap-2 text-lg mb-4">
               <span>
                 <MdOutlineIntegrationInstructions />
@@ -76,7 +76,7 @@ const AddVideo = ({
           <input
             type="text"
             value={link}
-            className="w-full rounded-[20px] px-4 py-2 focus:outline-none text-black bg-white focus:ring-transparent"
+            className="w-full rounded-[20px] px-4 py-2  bg-gray-100 focus:ring  text-black  focus:blue-500 focus:outline-none"
             placeholder="video url"
             onChange={handleLink}
           />

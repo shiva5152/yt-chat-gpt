@@ -13,7 +13,7 @@ const Sidebar = ({
       <div>
         <div className="px-5 h-[12vh] flex justify-between items-center bg-white ">
           <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
-            Shiller
+            TubeTalk
           </h1>
           <button>
             <FiColumns className=" h-5 w-5 text-[#6e7191]" />
@@ -31,7 +31,7 @@ const Sidebar = ({
           </span>
         </button>
       </div>
-      <div className=" overflow-x-hidden">
+      <div className="styled-scrollbar overflow-x-hidden">
         <ul className="flex px-3 flex-col mt-10 gap-4 w-full">
           {[...chats, ...chats, ...chats, ...chats].map((obj, index) => {
             return (

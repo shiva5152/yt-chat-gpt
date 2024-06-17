@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import ChatLoader from "./ChatLoader";
 import useChatScroll from "./hooks/useChatScroll";
 
@@ -56,21 +56,13 @@ interface ChildProps {
   setTokens: React.Dispatch<React.SetStateAction<any>>;
 }
 //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
-const page = () => {
+const page = ({ videoId }: { videoId: string }) => {
   const [tokns, setTokens] = useState();
   const [userText, setUserText] = useState("");
   const [loading, setLoading] = useState(false);
   const [chatLog, setChatLog] = useState<
     { user: string; msg: string | React.JSX.Element }[]
   >([
-    {
-      user: "client",
-      msg: "How are you.",
-    },
-    {
-      user: "gpt",
-      msg: "How i can help you.",
-    },
     {
       user: "client",
       msg: "how to write pointers in cpp",
@@ -122,7 +114,7 @@ const page = () => {
     console.log(userText);
     setLoading(true); //_0D5lXDjNpw
     const res = await postData(
-      `/api/chat?query=${userText}&videoId=${"_0D5lXDjNpw"}`
+      `/api/chat?query=${userText}&videoId=${videoId}`
     );
     // setTokens(res.token_count);
     console.log(res);
@@ -135,6 +127,17 @@ const page = () => {
       // { userMessage: userText, gptResponse: res.result.text },
     ]);
   };
+
+  useEffect(() => {
+    getChatLog(videoId).then((data) => {
+      setChatLog(
+        data.chatLog.flatMap((obj: any) => [
+          { user: "gpt", msg: obj.gptReply },
+          { user: "client", msg: obj.query },
+        ])
+      );
+    });
+  }, [videoId]);
 
   const router = useRouter();
   const handleEnterKeyPress = (event: any) => {
@@ -151,12 +154,12 @@ const page = () => {
   return (
     <section
       style={{ height: "calc(100vh - 12vh)" }}
-      className=" w-full bg-[#f2f8fd] items-center  flex flex-col "
+      className=" w-full bg-[#f2f8fd] items-center justify-between   flex flex-col "
     >
       <div
         ref={chatContainerRef}
         style={{ scrollBehavior: "smooth" }}
-        className="styled-scrollbar  px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
+        className="styled-scrollbar px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
       >
         {chatLog?.length > 0 &&
           chatLog.map((obj, index) => {
@@ -164,36 +167,38 @@ const page = () => {
           })}
       </div>
 
-      <div className=" rounded-[20px] bg-white shadow-md  w-[50%] mx-auto p-1 mb-5">
-        <div className="w-full flex justify-between px-4 py-2">
-          <input
-            className="w-[80%] focus:outline-none text-black bg-white focus:ring-transparent"
-            placeholder="Ask the Shiller"
-            type="text"
-            name="text"
-            value={userText}
-            onKeyDown={handleEnterKeyPress}
-            onChange={(e) => setUserText(e.target.value)}
-            id="questionInput"
-          />
+      <div className="w-full pt-2">
+        <div className=" align-bottom rounded-[20px] bg-white shadow-md  w-[50%] mx-auto p-1 mb-5">
+          <div className="w-full flex justify-between px-4 py-2">
+            <input
+              className="w-[80%] focus:outline-none text-black bg-white focus:ring-transparent"
+              placeholder="Ask the Shiller"
+              type="text"
+              name="text"
+              value={userText}
+              onKeyDown={handleEnterKeyPress}
+              onChange={(e) => setUserText(e.target.value)}
+              id="questionInput"
+            />
 
-          <button onClick={handleSubmit} id="sendButton" className="p-2">
-            <svg
-              stroke="#272d34"
-              fill="none"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              className="h-4 w-4 mr-1"
-              height="1em"
-              width="1em"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <line x1="22" y1="2" x2="11" y2="13"></line>
-              <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-            </svg>
-          </button>
+            <button onClick={handleSubmit} id="sendButton" className="p-2">
+              <svg
+                stroke="#272d34"
+                fill="none"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="h-4 w-4 mr-1"
+                height="1em"
+                width="1em"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <line x1="22" y1="2" x2="11" y2="13"></line>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </section>
@@ -204,10 +209,6 @@ const postData = async (url: string) => {
   try {
     const response = await fetch(url);
 
-    // if (!response.ok) {
-    //   throw new Error(`Request failed with status: ${response.status}`);
-    // }
-
     const responseData = await response.json();
     console.log(responseData, "responseData");
     return responseData;
@@ -215,6 +216,18 @@ const postData = async (url: string) => {
     if (error instanceof Error && error.message.includes("429")) {
       alert("Rate limit, 2 queries per minute only.");
     }
+    console.error("Error:", error);
+    throw error;
+  }
+};
+
+const getChatLog = async (videoId: string) => {
+  try {
+    const response = await fetch(`/api/chat?videoId=${videoId}`);
+    const data = await response.json();
+    console.log(data, "data");
+    return data;
+  } catch (error) {
     console.error("Error:", error);
     throw error;
   }

@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { TUser } from "@/types/server/user";
+import Video from "./video";
 
 const user = new mongoose.Schema<TUser>(
     {
@@ -19,7 +20,7 @@ const user = new mongoose.Schema<TUser>(
         },
         videos: [
             {
-                type: mongoose.Schema.Types.ObjectId,
+                type: mongoose.Types.ObjectId,
                 ref: "Video",
             }
         ]

@@ -8,7 +8,12 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Chat from "@/components/Chat";
 
-const ChatProvider = () => {
+type TParams = {
+  videoId: string;
+};
+
+const ChatProvider = ({ params }: { params: TParams }) => {
+  const videoId = params.videoId;
   const [isAddVideo, setAddVideo] = useState(false);
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
@@ -58,7 +63,7 @@ const ChatProvider = () => {
           <Sidebar setAddVideo={setAddVideo} />
           <div className="flex flex-col w-full">
             <Navbar />
-            <Chat />
+            <Chat videoId={videoId} />
             {isAddVideo && <AddVideo setAddVideo={setAddVideo} />}
           </div>
         </>

@@ -1,7 +1,10 @@
 import connectToDb from "@/utils/connectDb";
+import Video from "@/models/video";
 import User from "@/models/user";
 import { NextResponse } from "next/server";
 import errorResponse from "@/app/lib/errorResponse";
+import { auth } from '@clerk/nextjs/server';
+import mongoose from "mongoose";
 
 
 export const POST = async (request: Request) => {
@@ -29,3 +32,31 @@ export const POST = async (request: Request) => {
         return errorResponse(err instanceof Error ? "Error in creating user" + err.message : "Something went wrong while creating user.");
     }
 };
+
+export const GET = async (request: Request) => {
+
+    // const { userId } = auth();
+    const userId = "user_2h7sW74Wz33zzDQtBBWC3D56XMw"
+    console.log(userId);
+    try {
+
+        await connectToDb();
+
+        const user = await User.findOne({ userId }).populate({
+            path: "videos",
+            select: "title videoId",
+        });
+        console.log(mongoose.models.Video)
+
+
+        return NextResponse.json({
+            message: "User is created",
+            user: user,
+        }, { status: 200 });
+
+    } catch (err) {
+        console.log(err);
+        return errorResponse(err instanceof Error ? err.message : "Something went wrong while creating user.");
+    }
+};
+

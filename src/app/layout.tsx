@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { AppThemeProvider } from "./providers/themeProvider";
 import ToastProvider from "./providers/toastProvider";
 import { ClerkProvider } from "@clerk/nextjs";
+import ReduxProvider from "./providers/reduxProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +24,9 @@ export default function RootLayout({
       <html lang="en" suppressHydrationWarning>
         <body className={inter.className}>
           <AppThemeProvider>
-            <ToastProvider>{children}</ToastProvider>
+            <ToastProvider>
+              <ReduxProvider>{children}</ReduxProvider>
+            </ToastProvider>
           </AppThemeProvider>
         </body>
       </html>
