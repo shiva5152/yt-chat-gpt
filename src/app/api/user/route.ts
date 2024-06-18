@@ -4,7 +4,6 @@ import User from "@/models/user";
 import { NextResponse } from "next/server";
 import errorResponse from "@/app/lib/errorResponse";
 import { auth } from '@clerk/nextjs/server';
-import mongoose from "mongoose";
 
 
 export const POST = async (request: Request) => {
