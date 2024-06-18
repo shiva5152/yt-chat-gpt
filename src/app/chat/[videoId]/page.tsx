@@ -60,11 +60,11 @@ const ChatProvider = ({ params }: { params: TParams }) => {
         <div>Loading...</div>
       ) : (
         <>
-          <Sidebar setAddVideo={setAddVideo} />
+          <Sidebar />
           <div className="flex flex-col w-full">
             <Navbar />
             <Chat videoId={videoId} />
-            {isAddVideo && <AddVideo setAddVideo={setAddVideo} />}
+            {isAddVideo && <AddVideo />}
           </div>
         </>
       )}

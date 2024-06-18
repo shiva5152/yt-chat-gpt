@@ -54,12 +54,12 @@ const ChatProvider = ({ children }: { children: React.ReactNode }) => {
         <div>Loading...</div>
       ) : (
         <>
-          <Sidebar setAddVideo={setAddVideo} />
+          <Sidebar />
           <div className="flex flex-col w-full">
             <Navbar />
             {/* <Chat /> */}
             {children}
-            {isAddVideo && <AddVideo setAddVideo={setAddVideo} />}
+            {isAddVideo && <AddVideo />}
           </div>
         </>
       )}
