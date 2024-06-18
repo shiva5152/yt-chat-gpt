@@ -22,35 +22,35 @@ const ChatProvider = () => {
     return;
   }
 
-  useEffect(() => {
-    const isUserExit = JSON.parse(localStorage.getItem("isUserExit") || "0");
-    console.log(user, "user in route");
+  // useEffect(() => {
+  //   const isUserExit = JSON.parse(localStorage.getItem("isUserExit") || "0");
+  //   console.log(user, "user in route");
 
-    if (!isUserExit && user) {
-      const addUser = async () => {
-        try {
-          const response = await fetch("/api/user", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              email: user.primaryEmailAddress?.emailAddress,
-              userId: user.id,
-            }),
-          });
+  //   if (!isUserExit && user) {
+  //     const addUser = async () => {
+  //       try {
+  //         const response = await fetch("/api/user", {
+  //           method: "POST",
+  //           headers: {
+  //             "Content-Type": "application/json",
+  //           },
+  //           body: JSON.stringify({
+  //             email: user.primaryEmailAddress?.emailAddress,
+  //             userId: user.id,
+  //           }),
+  //         });
 
-          const data = await response.json();
-          console.log(data);
-          localStorage.setItem("isUserExit", "1");
-        } catch (error: any) {
-          console.log(error);
-          notifyError(error.message);
-        }
-      };
-      addUser();
-    }
-  }, [user]);
+  //         const data = await response.json();
+  //         console.log(data);
+  //         localStorage.setItem("isUserExit", "1");
+  //       } catch (error: any) {
+  //         console.log(error);
+  //         notifyError(error.message);
+  //       }
+  //     };
+  //     addUser();
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     getUser(dispatch);

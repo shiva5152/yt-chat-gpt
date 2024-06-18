@@ -68,6 +68,7 @@ export async function POST(req: Request) {
             email: email_addresses[0].email_address,
             tokenLeft: 3000,
         }
+        console.log(user);
         await createUser(user)
     }
 
