@@ -8,6 +8,7 @@ import {
 } from "@headlessui/react";
 import { FiYoutube } from "react-icons/fi";
 import { MdGeneratingTokens } from "react-icons/md";
+import { useAppSelector } from "@/redux/hooks";
 import {
   SignOutButton,
   useAuth,
@@ -24,8 +25,7 @@ function classNames(...classes: string[]) {
 const Navbar = () => {
   const auth = useAuth();
   const { user } = useUser();
-  console.log(auth, "auth");
-  console.log(user, "user");
+  const { videos } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const fetchUser = async () => {

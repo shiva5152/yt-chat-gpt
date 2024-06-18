@@ -8,6 +8,7 @@ import { NextResponse } from "next/server";
 import errorResponse from "@/app/lib/errorResponse";
 import Chat from "@/models/chat";
 import { auth } from '@clerk/nextjs/server';
+import connectToDb from "@/utils/connectDb";
 
 type Params = {
     [key: string]: {
@@ -100,6 +101,7 @@ export const GET = async (request: NextRequest, { params }: Params) => {
         });
 
         // saving the chat in the database 
+        await connectToDb();
         await Chat.updateOne({ videoId, userId }, { $push: { conversations: { query: question, gptReply: response } } });
 
         return NextResponse.json({

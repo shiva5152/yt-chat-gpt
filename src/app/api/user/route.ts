@@ -35,19 +35,18 @@ export const POST = async (request: Request) => {
 
 export const GET = async (request: Request) => {
 
-    // const { userId } = auth();
-    const userId = "user_2h7sW74Wz33zzDQtBBWC3D56XMw"
+    const { userId } = auth();
+    // const userId = "user_2h7sW74Wz33zzDQtBBWC3D56XMw"
     console.log(userId);
     try {
 
         await connectToDb();
 
         const user = await User.findOne({ userId }).populate({
+            model: Video,
             path: "videos",
             select: "title videoId",
         });
-        console.log(mongoose.models.Video)
-
 
         return NextResponse.json({
             message: "User is created",

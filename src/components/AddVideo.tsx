@@ -4,11 +4,11 @@ import { IoCloseOutline } from "react-icons/io5";
 import { notifyError, notifyInfo } from "@/utils/toast";
 import { MdOutlineIntegrationInstructions } from "react-icons/md";
 import { extractYouTubeVideoID, isYouTubeVideoLink } from "@/helpers/helper";
-const AddVideo = ({
-  setAddVideo,
-}: {
-  setAddVideo: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+import { useAppDispatch } from "@/redux/hooks";
+import { setIsAddVideoPopup } from "@/redux/features/ui/slice";
+
+const AddVideo = () => {
+  const dispatch = useAppDispatch();
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
 
@@ -47,7 +47,7 @@ const AddVideo = ({
     <div className=" h-screen transition-all duration-500 ease-in-out fixed inset-0 backdrop-blur-[5px] w-full  flex justify-center items-center">
       <div className="flex relative border-[1px] border-[#d3d3d3] p-10 rounded-lg bg-white justify-center items-center">
         <div className="absolute top-5 right-5">
-          <button onClick={() => setAddVideo(false)}>
+          <button onClick={() => dispatch(setIsAddVideoPopup(false))}>
             <IoCloseOutline className="h-6 w-6 text-black" />
           </button>
         </div>

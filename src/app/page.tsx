@@ -7,11 +7,14 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Landing from "@/components/Landing";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { getUser } from "@/redux/features/user/api";
 
 const ChatProvider = () => {
-  const [isAddVideo, setAddVideo] = useState(false);
+  const { isAddVideoPopup } = useAppSelector((state) => state.ui);
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
+  const dispatch = useAppDispatch();
 
   const router = useRouter();
   if (!isSignedIn && isLoaded) {
@@ -49,17 +52,21 @@ const ChatProvider = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    getUser(dispatch);
+  }, []);
+
   return (
     <main className="min-h-screen flex bg-[#f2f8fd]">
       {!isLoaded ? (
         <div>Loading...</div>
       ) : (
         <>
-          <Sidebar setAddVideo={setAddVideo} />
+          <Sidebar />
           <div className="flex flex-col w-full">
             <Navbar />
             <Landing />
-            {isAddVideo && <AddVideo setAddVideo={setAddVideo} />}
+            {isAddVideoPopup && <AddVideo />}
           </div>
         </>
       )}

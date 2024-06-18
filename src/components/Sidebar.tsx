@@ -2,12 +2,14 @@
 import React from "react";
 import { FiColumns, FiEdit3, FiYoutube } from "react-icons/fi";
 import { MdCardMembership } from "react-icons/md";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { setIsAddVideoPopup } from "@/redux/features/ui/slice";
+import Link from "next/link";
 
-const Sidebar = ({
-  setAddVideo,
-}: {
-  setAddVideo: React.Dispatch<React.SetStateAction<boolean>>;
-}) => {
+const Sidebar = () => {
+  const dispatch = useAppDispatch();
+  const { videos } = useAppSelector((state) => state.user);
+
   return (
     <div className="h-screen relative w-[20%] bg-white flex  flex-col">
       <div>
@@ -22,7 +24,7 @@ const Sidebar = ({
       </div>
       <div className="hover:bg-[#eaeaea]  rounded-md mx-5 p-2">
         <button
-          onClick={() => setAddVideo(true)}
+          onClick={() => dispatch(setIsAddVideoPopup(true))}
           className="flex text-[#6e7191] font-xl justify-between w-full items-center"
         >
           <span className=" font-semibold"> Add New Video </span>
@@ -33,17 +35,18 @@ const Sidebar = ({
       </div>
       <div className="styled-scrollbar overflow-x-hidden">
         <ul className="flex px-3 flex-col mt-10 gap-4 w-full">
-          {[...chats, ...chats, ...chats, ...chats].map((obj, index) => {
+          {videos.map((video, index) => {
             return (
               <li key={index}>
-                <button
+                <Link
+                  href={`/chat/${video.videoId}`}
                   className={`text-start px-2 py-1 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
                 >
                   <span className="mt-1">
                     <FiYoutube />
                   </span>
-                  <span>{obj.title.slice(0, 30)}...</span>
-                </button>
+                  <span>{video.title.slice(0, 30)}...</span>
+                </Link>
               </li>
             );
           })}

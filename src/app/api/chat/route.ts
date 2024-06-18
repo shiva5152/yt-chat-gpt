@@ -3,6 +3,7 @@ import type { NextRequest } from 'next/server';
 import errorResponse from '@/app/lib/errorResponse';
 import Chat from '@/models/chat';
 import { auth } from '@clerk/nextjs/server';
+import connectToDb from "@/utils/connectDb";
 
 export const GET = async (request: NextRequest) => {
 
@@ -11,7 +12,7 @@ export const GET = async (request: NextRequest) => {
     const { userId } = auth();
 
     try {
-
+        await connectToDb();
         const chatLog = await Chat.findOne({ userId, videoId });
 
         return NextResponse.json({
