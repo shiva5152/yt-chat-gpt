@@ -51,7 +51,6 @@ export async function POST(req: Request) {
 
     // Do something with the payload
     // For this guide, you simply log the payload to the console
-    const { id } = evt.data;
     const eventType = evt.type;
 
     if (eventType === 'user.created') {
@@ -68,7 +67,6 @@ export async function POST(req: Request) {
             email: email_addresses[0].email_address,
             tokenLeft: 3000,
         }
-        console.log(user);
         await createUser(user)
     }
 
