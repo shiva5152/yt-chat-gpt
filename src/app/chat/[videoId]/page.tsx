@@ -7,6 +7,7 @@ import { useAuth, useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Chat from "@/components/Chat";
+import { useAppSelector } from "@/redux/hooks";
 
 type TParams = {
   videoId: string;
@@ -17,6 +18,8 @@ const ChatProvider = ({ params }: { params: TParams }) => {
   const [isAddVideo, setAddVideo] = useState(false);
   const { isLoaded, isSignedIn } = useAuth();
   const { user } = useUser();
+  const { tokenLeft, videos } = useAppSelector((state) => state.user);
+  const currentVideo = videos.find((video) => video.videoId === videoId);
 
   const router = useRouter();
   if (!isSignedIn && isLoaded) {
@@ -62,7 +65,7 @@ const ChatProvider = ({ params }: { params: TParams }) => {
         <>
           <Sidebar />
           <div className="flex flex-col w-full">
-            <Navbar />
+            <Navbar tokenLeft={tokenLeft} title={currentVideo?.title} />
             <Chat videoId={videoId} />
             {isAddVideo && <AddVideo />}
           </div>

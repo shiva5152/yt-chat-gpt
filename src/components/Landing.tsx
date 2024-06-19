@@ -4,7 +4,7 @@ import LandingInput from "./LandingInput";
 
 const Landing = () => {
   return (
-    <div className="flex h-full flex-col items-center justify-center">
+    <div className="flex h-full w-full flex-col items-center justify-center">
       <div>
         <Image src="/img/chat.png" alt="landing" width={100} height={100} />
       </div>

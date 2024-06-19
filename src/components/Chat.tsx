@@ -4,8 +4,10 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import ChatLoader from "./ChatLoader";
 import useChatScroll from "./hooks/useChatScroll";
+import { useUser } from "@clerk/nextjs";
 
 const ChatMessage = ({ message }: { message: any }) => {
+  const { user } = useUser();
   return (
     <div
       className={`flex flex-row items-start gap-1 ${
@@ -40,8 +42,8 @@ const ChatMessage = ({ message }: { message: any }) => {
           {/* <div className="h-6 w-6 bg-green-500 rounded-full mr-7"></div> */}
           <div className="h-8 w-8">
             <Image
-              src={"/img/avatar.png"}
-              className="object-contain mx-auto rounded-lg"
+              src={user?.imageUrl || "/img/avatar.png"}
+              className="object-contain mx-auto rounded-full"
               alt="user"
               width={35}
               height={35}
@@ -62,40 +64,7 @@ const page = ({ videoId }: { videoId: string }) => {
   const [loading, setLoading] = useState(false);
   const [chatLog, setChatLog] = useState<
     { user: string; msg: string | React.JSX.Element }[]
-  >([
-    {
-      user: "client",
-      msg: "how to write pointers in cpp",
-    },
-    {
-      user: "gpt",
-      msg: "In C++, pointers are variables that store the memory address of another variable. Pointers are powerful but can be tricky to use, so it's important to understand the basics of how to declare, initialize, and use them. Here’s a step-by-step guide on how to work with pointers in C++:.",
-    },
-    {
-      user: "client",
-      msg: "give me an example",
-    },
-    {
-      user: "gpt",
-      msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
-    },
-    {
-      user: "gpt",
-      msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
-    },
-    {
-      user: "client",
-      msg: "give me an example",
-    },
-    {
-      user: "gpt",
-      msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
-    },
-    {
-      user: "gpt",
-      msg: "This example demonstrates pointer declaration, initialization, pointer arithmetic, using pointers with arrays, and dynamic memory allocation. Understanding these basics will help you effectively use pointers in C++.",
-    },
-  ]);
+  >([]);
   const chatContainerRef = useChatScroll(chatLog);
 
   const handleSubmit = async () => {
@@ -113,9 +82,7 @@ const page = ({ videoId }: { videoId: string }) => {
     setUserText("");
     console.log(userText);
     setLoading(true); //_0D5lXDjNpw
-    const res = await postData(
-      `/api/chat?query=${userText}&videoId=${videoId}`
-    );
+    const res = await postData(`/api/chat/${videoId}?query=${userText}`);
     // setTokens(res.token_count);
     console.log(res);
 
@@ -132,8 +99,8 @@ const page = ({ videoId }: { videoId: string }) => {
     getChatLog(videoId).then((data) => {
       setChatLog(
         data.chatLog.flatMap((obj: any) => [
-          { user: "gpt", msg: obj.gptReply },
           { user: "client", msg: obj.query },
+          { user: "gpt", msg: obj.gptReply },
         ])
       );
     });
@@ -161,10 +128,25 @@ const page = ({ videoId }: { videoId: string }) => {
         style={{ scrollBehavior: "smooth" }}
         className="styled-scrollbar px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
       >
-        {chatLog?.length > 0 &&
+        {chatLog?.length > 0 ? (
           chatLog.map((obj, index) => {
             return <ChatMessage key={index} message={obj} />;
-          })}
+          })
+        ) : (
+          <div className="h-full flex gap-5 mt-20 flex-col justify-center items-center">
+            <div>
+              <Image
+                src="/img/light-bulb.png"
+                alt="light-bulb"
+                width={100}
+                height={100}
+              />
+            </div>
+            <p className="text-[#6e7191]">
+              Start the conversation now! Ask TubeTalk anything about the video.
+            </p>
+          </div>
+        )}
       </div>
 
       <div className="w-full pt-2">

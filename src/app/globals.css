@@ -34,6 +34,17 @@
   }
 }
 
+.sidebar-hidden {
+  transform: translateX(-100%);
+  position: absolute;
+  transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-visible {
+  transform: translateX(0);
+  transition: transform 0.3s ease-in-out;
+}
+
 /* scrollbar */
 
 .styled-scrollbar::-webkit-scrollbar {

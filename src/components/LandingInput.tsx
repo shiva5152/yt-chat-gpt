@@ -1,10 +1,12 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useAppDispatch } from "@/redux/hooks";
 import { setIsAddVideoPopup } from "@/redux/features/ui/slice";
+import { text } from "stream/consumers";
 
 const LandingInput = () => {
   const dispatch = useAppDispatch();
+
   return (
     <div className="w-full flex justify-between px-4 py-2">
       <input
@@ -12,7 +14,6 @@ const LandingInput = () => {
         placeholder="Start New Conversation"
         type="text"
         name="text"
-        value={""}
         onFocus={() => dispatch(setIsAddVideoPopup(true))}
       />
 

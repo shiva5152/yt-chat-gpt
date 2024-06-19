@@ -23,6 +23,8 @@ export const GET = async (request: NextRequest, { params }: Params) => {
     const videoId = params.videoId;
     const { userId } = auth();
 
+
+
     try {
         if (!question) {
             return errorResponse("query not found", 400);

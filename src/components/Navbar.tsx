@@ -1,46 +1,36 @@
 "use client";
-import {
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuItems,
-  Transition,
-} from "@headlessui/react";
 import { FiYoutube } from "react-icons/fi";
 import { MdGeneratingTokens } from "react-icons/md";
-import { useAppSelector } from "@/redux/hooks";
-import {
-  SignOutButton,
-  useAuth,
-  SignedIn,
-  UserButton,
-  useUser,
-} from "@clerk/nextjs";
-import { useEffect } from "react";
+import { useAppSelector, useAppDispatch } from "@/redux/hooks";
+import { useAuth, SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import { FiColumns } from "react-icons/fi";
+import { setIsSidebarVisible } from "@/redux/features/ui/slice";
 
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(" ");
-}
-
-const Navbar = () => {
-  const auth = useAuth();
-  const { user } = useUser();
-  const { videos } = useAppSelector((state) => state.user);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      console.log(user);
-    };
-    fetchUser();
-  }, []);
-
+const Navbar = ({
+  title,
+  tokenLeft,
+}: {
+  title?: string;
+  tokenLeft: number;
+}) => {
+  const dispatch = useAppDispatch();
+  const { isSidebarVisible } = useAppSelector((state) => state.ui);
   return (
-    <nav className="h-[12vh] w-full px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
-      <div className="font-semibold text-lg flex  items-center gap-2">
-        <span>
-          <FiYoutube />
-        </span>
-        <span>What is Abstract Aljebra...</span>
+    <nav className="h-[12vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
+      {!isSidebarVisible ? (
+        <button onClick={() => dispatch(setIsSidebarVisible(true))}>
+          <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+        </button>
+      ) : null}
+      <div>
+        {title ? (
+          <div className="font-semibold text-lg flex  items-center gap-2">
+            <span>
+              <FiYoutube />
+            </span>
+            <span>{title}</span>
+          </div>
+        ) : null}
       </div>
       <div className="flex items-center gap-3">
         <div className="gap-1 p-2 rounded-md flex items-center bg-[#eaeaea] ">
@@ -49,7 +39,7 @@ const Navbar = () => {
           </div>
           <div className="flex flex-col ">
             <p className="text-[0.7rem] -mt-[3px] text-black">
-              <span className=" font-bold">3000</span> Tokens left
+              <span className=" font-bold">{tokenLeft}</span> Tokens left
             </p>
           </div>
         </div>

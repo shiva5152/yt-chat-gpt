@@ -3,21 +3,29 @@ import React from "react";
 import { FiColumns, FiEdit3, FiYoutube } from "react-icons/fi";
 import { MdCardMembership } from "react-icons/md";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { setIsAddVideoPopup } from "@/redux/features/ui/slice";
+import {
+  setIsAddVideoPopup,
+  setIsSidebarVisible,
+} from "@/redux/features/ui/slice";
 import Link from "next/link";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const { videos } = useAppSelector((state) => state.user);
+  const { isSidebarVisible } = useAppSelector((state) => state.ui);
+
+  const sidebarClass = isSidebarVisible ? "sidebar-visible" : "sidebar-hidden";
 
   return (
-    <div className="h-screen relative w-[20%] bg-white flex  flex-col">
+    <div
+      className={`h-screen relative w-[20%] bg-white flex flex-col ${sidebarClass}`}
+    >
       <div>
         <div className="px-5 h-[12vh] flex justify-between items-center bg-white ">
           <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
             TubeTalk
           </h1>
-          <button>
+          <button onClick={() => dispatch(setIsSidebarVisible(false))}>
             <FiColumns className=" h-5 w-5 text-[#6e7191]" />
           </button>
         </div>
@@ -27,7 +35,7 @@ const Sidebar = () => {
           onClick={() => dispatch(setIsAddVideoPopup(true))}
           className="flex text-[#6e7191] font-xl justify-between w-full items-center"
         >
-          <span className=" font-semibold"> Add New Video </span>
+          <span className="font-semibold"> Add New Video </span>
           <span>
             <FiEdit3 className="h-6 w-6 " />
           </span>
@@ -52,7 +60,7 @@ const Sidebar = () => {
           })}
         </ul>
       </div>
-      <div className="h-[10vh] relative bottom-0 flex items-center px-5">
+      <div className="h-[10vh] absolute bottom-0 flex items-center px-5">
         <button className="flex items-center gap-1 text-black ">
           <span className="h-6 w-6 mt-2">
             <MdCardMembership />
