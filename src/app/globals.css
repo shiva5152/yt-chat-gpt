@@ -37,12 +37,20 @@
 .sidebar-hidden {
   transform: translateX(-100%);
   position: absolute;
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebar-visible {
   transform: translateX(0);
-  transition: transform 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+.chat-expanded {
+  transition: width 0.3s ease-in-out;
+}
+
+.chat-collapsed {
+  transition: width 0.3s ease-in-out;
 }
 
 /* scrollbar */
