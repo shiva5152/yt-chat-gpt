@@ -6,11 +6,12 @@ import { MdOutlineIntegrationInstructions } from "react-icons/md";
 import { extractYouTubeVideoID, isYouTubeVideoLink } from "@/helpers/helper";
 import { useAppDispatch } from "@/redux/hooks";
 import { setIsAddVideoPopup } from "@/redux/features/ui/slice";
-
+import Loader from "./Loader";
 const AddVideo = () => {
   const dispatch = useAppDispatch();
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleLink = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (error) setError("");
@@ -22,6 +23,7 @@ const AddVideo = () => {
       setError("Invalid YouTube video link.");
       return;
     }
+    setLoading(true);
     try {
       const response = await fetch("/api/transcript", {
         method: "POST",
@@ -35,12 +37,14 @@ const AddVideo = () => {
       if (!response.ok) {
         return notifyError(result.message);
       }
+      setLoading(false);
       // in case everything is right
     } catch (err) {
       console.log(err, "err");
       notifyError(
         err instanceof Error ? err.message : "Something went wrong try again."
       );
+      // setLoading(false);
     }
   };
   return (
@@ -83,10 +87,11 @@ const AddVideo = () => {
           {error ? <p className="text-red-500">{error}</p> : null}
           <button
             type="submit"
+            disabled={loading}
             onClick={handleSubmit}
-            className="text-white bg-[#1a4fba] rounded-[20px] px-4 py-2 w-fit  "
+            className="text-white h-10 w-[12rem] flex justify-center items-center bg-[#1a4fba] rounded-[20px] px-4 py-2  "
           >
-            Start Conversation
+            {loading ? <Loader /> : "Start Conversation"}
           </button>
         </div>
       </div>

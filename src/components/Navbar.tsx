@@ -18,9 +18,14 @@ const Navbar = ({
   return (
     <nav className="h-[12vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
       {!isSidebarVisible ? (
-        <button onClick={() => dispatch(setIsSidebarVisible(true))}>
-          <FiColumns className=" h-5 w-5 text-[#6e7191]" />
-        </button>
+        <div className=" flex gap-5 items-center">
+          <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+            TubeTalk
+          </h1>
+          <button onClick={() => dispatch(setIsSidebarVisible(true))}>
+            <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+          </button>
+        </div>
       ) : null}
       <div>
         {title ? (
