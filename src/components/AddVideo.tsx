@@ -6,8 +6,12 @@ import { MdOutlineIntegrationInstructions } from "react-icons/md";
 import { extractYouTubeVideoID, isYouTubeVideoLink } from "@/helpers/helper";
 import { useAppDispatch } from "@/redux/hooks";
 import { setIsAddVideoPopup } from "@/redux/features/ui/slice";
+import { addVideoToPinecone } from "@/redux/features/user/api";
+import { useRouter } from "next/navigation";
+
 import Loader from "./Loader";
 const AddVideo = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const [link, setLink] = useState("");
   const [error, setError] = useState("");
@@ -24,29 +28,23 @@ const AddVideo = () => {
       return;
     }
     setLoading(true);
-    try {
-      const response = await fetch("/api/transcript", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ videoId: extractYouTubeVideoID(link) }),
-      });
-
-      const result = await response.json();
-      if (!response.ok) {
-        return notifyError(result.message);
-      }
+    const videoId = extractYouTubeVideoID(link);
+    if (!videoId) {
+      notifyError("Invalid YouTube video link.");
       setLoading(false);
-      // in case everything is right
-    } catch (err) {
-      console.log(err, "err");
-      notifyError(
-        err instanceof Error ? err.message : "Something went wrong try again."
-      );
-      // setLoading(false);
+      return;
     }
+    const response = await addVideoToPinecone(videoId);
+    if (response.success) {
+      notifyInfo("Video added successfully");
+      dispatch(setIsAddVideoPopup(false));
+      router.push(`/chat/${videoId}`);
+    } else {
+      notifyError(response?.message || "Something went wrong try again.");
+    }
+    setLoading(false);
   };
+
   return (
     <div className=" h-screen transition-all duration-500 ease-in-out fixed inset-0 backdrop-blur-[5px] w-full  flex justify-center items-center">
       <div className="flex relative border-[1px] border-[#d3d3d3] p-10 rounded-lg bg-white justify-center items-center">

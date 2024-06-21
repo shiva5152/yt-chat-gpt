@@ -3,8 +3,11 @@ import { FiYoutube } from "react-icons/fi";
 import { MdGeneratingTokens } from "react-icons/md";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useAuth, SignedIn, UserButton, useUser } from "@clerk/nextjs";
-import { FiColumns } from "react-icons/fi";
-import { setIsSidebarVisible } from "@/redux/features/ui/slice";
+import { FiColumns, FiEdit3 } from "react-icons/fi";
+import {
+  setIsSidebarVisible,
+  setIsAddVideoPopup,
+} from "@/redux/features/ui/slice";
 
 const Navbar = ({
   title,
@@ -24,6 +27,14 @@ const Navbar = ({
           </h1>
           <button onClick={() => dispatch(setIsSidebarVisible(true))}>
             <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+          </button>
+          <button
+            onClick={() => dispatch(setIsAddVideoPopup(true))}
+            className="flex text-[#6e7191] font-xl justify-between w-full items-center"
+          >
+            <span>
+              <FiEdit3 className="h-6 w-6 " />
+            </span>
           </button>
         </div>
       ) : null}

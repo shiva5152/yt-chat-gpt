@@ -2,6 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
+.fade-in {
+  opacity: 0;
+  animation: fadeInAnimation 1.5s forwards;
+  animation-delay: 1s;
+}
+
+@keyframes fadeInAnimation {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
 /* chat Loader */
 .dot {
   animation: dot-pulse 0.9s ease both infinite;

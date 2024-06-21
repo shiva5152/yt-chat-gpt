@@ -10,7 +10,7 @@ import Message from "./Message";
 const page = ({ videoId }: { videoId: string }) => {
   const [tokens, setTokens] = useState();
   const [userText, setUserText] = useState("");
-  const { data, error, isLoading } = useGetChatLogQuery(videoId);
+  const { data, error, isLoading, refetch } = useGetChatLogQuery(videoId);
 
   const [chatLog, setChatLog] = useState<
     { user: string; msg: string | React.JSX.Element }[]
@@ -64,24 +64,14 @@ const page = ({ videoId }: { videoId: string }) => {
         style={{ scrollBehavior: "smooth" }}
         className="styled-scrollbar px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
       >
-        {chatLog?.length > 0 ? (
-          chatLog.map((obj, index) => {
-            return <Message key={index} message={obj} />;
-          })
-        ) : (
-          <>
-            {isLoading && (
-              <div className="h-full flex gap-5 mt-20 flex-col justify-center items-center">
-                <Loader />
-              </div>
-            )}
-          </>
-        )}
-      </div>
-
-      {data?.chatLog?.length === 0 && !isLoading && (
-        <>
+        {isLoading ? (
           <div className="h-full flex gap-5 mt-20 flex-col justify-center items-center">
+            <Loader />
+          </div>
+        ) : chatLog?.length > 0 ? (
+          chatLog.map((obj, index) => <Message key={index} message={obj} />)
+        ) : (
+          <div className="h-full fade-in flex gap-5 mt-20 flex-col justify-center items-center">
             <div>
               <Image
                 src="/img/light-bulb.png"
@@ -94,8 +84,8 @@ const page = ({ videoId }: { videoId: string }) => {
               Start the conversation now! Ask TubeTalk anything about the video.
             </p>
           </div>
-        </>
-      )}
+        )}
+      </div>
 
       <div className="w-full pt-2">
         <div className=" align-bottom rounded-[20px] bg-white shadow-md  w-[50%] mx-auto p-1 mb-5">

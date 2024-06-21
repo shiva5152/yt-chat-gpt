@@ -33,7 +33,8 @@ export const POST = async (request: NextRequest) => {
             const response = await handleExistingVideo(video, user);
             if (response) return response;
         } else {
-            await handleNewVideo(videoId, user);
+            const response = await handleNewVideo(videoId, user);
+            if (response) return response;
         }
 
         return NextResponse.json({
@@ -49,29 +50,42 @@ export const POST = async (request: NextRequest) => {
 
 const handleExistingVideo = async (video: TVideo, user: TUser) => {
 
-    if (video.users.includes(user._id)) {
-        return errorResponse("Video already exists", 400);
-    }
-    video.users.push(user._id);
-    await video.save();
+    try {
+        if (video.users.includes(user._id)) {
+            return errorResponse("Video already exists", 400);
+        }
+        video.users.push(user._id);
+        await video.save();
 
-    user.videos.push(video._id);
-    await user.save();
+        user.videos.push(video._id);
+        await user.save();
+    } catch (error) {
+        return errorResponse(error instanceof Error ? error.message : "Something went wrong");
+    }
 }
 
 const handleNewVideo = async (videoId: string, user: TUser) => {
-    await addTranscriptToPinecone(videoId, errorResponse);
+    const res = await addTranscriptToPinecone(videoId, errorResponse);
+    if (res) return res;
 
     const title = await getVideoTitle(videoId);
-    const newVideo = await Video.create({ videoId, title });
+    if (!title) {
+        return errorResponse("Failed to fetch video title");
+    }
+    try {
+        const newVideo = await Video.create({ videoId, title });
 
-    newVideo.users.push(user._id);
-    await newVideo.save();
+        newVideo.users.push(user._id);
+        await newVideo.save();
 
-    user.videos.push(newVideo._id);
-    await user.save();
-    // initialize chat for the video
-    await Chat.create({ videoId, userId: user.userId, conversations: [] });
+        user.videos.push(newVideo._id);
+        await user.save();
+        // initialize chat for the video
+        await Chat.create({ videoId, userId: user.userId, conversations: [] });
+
+    } catch (error) {
+        return errorResponse(error instanceof Error ? error.message : "Something went wrong")
+    }
 }
 
 const getVideoTitle = async (videoId: string) => {

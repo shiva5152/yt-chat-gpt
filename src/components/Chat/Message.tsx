@@ -31,7 +31,7 @@ const Message = ({
         </div>
       )}
       <div
-        className={`question flex max-w-[50%] shadow-md  py-2 px-4 rounded ${
+        className={`question flex max-w-[50%] shadow-md  py-2 px-4 rounded-lg ${
           message.user === "client"
             ? "bg-[#1a4fba] text-white"
             : "bg-white text-black"
