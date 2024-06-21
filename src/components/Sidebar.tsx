@@ -8,24 +8,32 @@ import {
   setIsSidebarVisible,
 } from "@/redux/features/ui/slice";
 import Link from "next/link";
+import { notifySuccess } from "@/utils/toast";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const { videos } = useAppSelector((state) => state.user);
-  const { isSidebarVisible } = useAppSelector((state) => state.ui);
+  const { isSidebarVisible, currentVideoId } = useAppSelector(
+    (state) => state.ui
+  );
 
   const sidebarClass = isSidebarVisible ? "sidebar-visible" : "sidebar-hidden";
-
+  const handleGetMoreToken = () => {
+    console.log("Get More Tokens");
+    return notifySuccess("Soon we are Adding paid plans. Stay Tuned!");
+  };
   return (
     <div
-      className={`h-screen relative w-[20%] bg-white flex justify-between flex-col ${sidebarClass}`}
+      className={`h-screen relative w-[20%] bg-white shadow-md flex justify-between flex-col ${sidebarClass}`}
     >
       <div>
         <div>
           <div className="px-5 h-[12vh] flex justify-between items-center bg-white ">
-            <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
-              TubeTalk
-            </h1>
+            <Link href="/">
+              <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+                TubeTalk
+              </h1>
+            </Link>
             <button onClick={() => dispatch(setIsSidebarVisible(false))}>
               <FiColumns className=" h-5 w-5 text-[#6e7191]" />
             </button>
@@ -43,13 +51,16 @@ const Sidebar = () => {
           </button>
         </div>
         <div className="styled-scrollbar overflow-x-hidden">
-          <ul className="flex px-3 flex-col mt-10 gap-4 w-full">
+          <ul className="flex px-3 flex-col mt-10 gap-2 w-full">
             {videos.map((video, index) => {
               return (
                 <li key={index}>
                   <Link
+                    title={video.title}
                     href={`/chat/${video.videoId}`}
-                    className={`text-start px-2 py-1 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
+                    className={`${
+                      currentVideoId == video.videoId && "bg-[#eaeaea]"
+                    } text-start px-3 py-2 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
                   >
                     <span className="mt-1">
                       <FiYoutube />
@@ -63,7 +74,10 @@ const Sidebar = () => {
         </div>
       </div>
       <div className="h-[10vh] relative bottom-0 flex items-center px-5">
-        <button className="flex items-center gap-1 text-black ">
+        <button
+          onClick={handleGetMoreToken}
+          className="flex items-center gap-1 text-black "
+        >
           <span className="h-6 w-6 mt-2">
             <MdCardMembership />
           </span>

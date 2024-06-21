@@ -66,7 +66,7 @@ export async function POST(req: Request) {
         const user = {
             userId: id,
             email: email_addresses[0].email_address,
-            tokenLeft: 3000,
+            tokenLeft: process.env.USER_TOKEN_LIMIT || 3000,
         }
         console.log('User created:', user)
         await createUser(user)

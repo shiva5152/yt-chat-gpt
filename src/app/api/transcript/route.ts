@@ -27,6 +27,10 @@ export const POST = async (request: NextRequest) => {
 
         const video = await Video.findOne({ videoId });
         const user = await User.findOne({ userId });
+        const maxVideos = process.env.USER_VIDEO_LIMIT || 3;
+        if (user.videos.length >= maxVideos) {
+            return errorResponse("You have already added maximum allowed videos.", 400);
+        }
 
         if (video) {
 

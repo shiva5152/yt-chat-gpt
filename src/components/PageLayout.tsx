@@ -20,7 +20,7 @@ const PageLayout = ({
   params?: TParams;
 }) => {
   const videoId = params?.videoId;
-  const { isLoaded, isSignedIn } = useAuth();
+  const { isLoaded } = useAuth();
   const dispatch = useAppDispatch();
   const { isAddVideoPopup, isSidebarVisible } = useAppSelector(
     (state) => state.ui
@@ -28,11 +28,6 @@ const PageLayout = ({
   const { tokenLeft, videos } = useAppSelector((state) => state.user);
   const currentVideo = videos.find((video) => video.videoId === videoId);
 
-  //   const router = useRouter();
-  //   if (!isSignedIn && isLoaded) {
-  //     router.push("/sign-up");
-  //     return;
-  //   }
   const chatClass = isSidebarVisible ? "chat-collapsed" : "chat-expanded";
 
   useEffect(() => {

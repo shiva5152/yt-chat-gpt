@@ -9,6 +9,7 @@ import errorResponse from "@/app/lib/errorResponse";
 import Chat from "@/models/chat";
 import { auth } from '@clerk/nextjs/server';
 import connectToDb from "@/utils/connectDb";
+import User from "@/models/user";
 
 type Params = {
     [key: string]: {
@@ -33,7 +34,11 @@ export const GET = async (request: NextRequest, { params }: Params) => {
             return errorResponse("videoId found", 400);
         }
         if (question.length > 250) {
-            return errorResponse("query could not exceed the 250 character limit", 400);
+            return errorResponse("query could not exceed the 250 character limit.", 400);
+        }
+        const user = await User.findOne({ userId });
+        if (user.tokenLeft <= 0) {
+            return errorResponse("!!! You have exhausted free your tokens.", 403);
         }
 
         const pineconeIndex = getPineconeIndex()
@@ -105,11 +110,13 @@ export const GET = async (request: NextRequest, { params }: Params) => {
         // saving the chat in the database 
         await connectToDb();
         await Chat.updateOne({ videoId, userId }, { $push: { conversations: { query: question, gptReply: response } } });
+        await User.updateOne({ userId }, { $inc: { tokenLeft: -tokenUsage.totalTokenCount } });
 
         return NextResponse.json({
             success: true,
             tokenUsage: { responseToken: tokenUsage.tokens, totalTokenUsed: tokenUsage.totalTokenCount },
-            response: response
+            response: response,
+            tokenLeft: user.tokenLeft - tokenUsage.totalTokenCount > 0 ? user.tokenLeft - tokenUsage.totalTokenCount : 0
         }, { status: 200 });
 
     } catch (err) {

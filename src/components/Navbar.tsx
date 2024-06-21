@@ -3,6 +3,7 @@ import { FiYoutube } from "react-icons/fi";
 import { MdGeneratingTokens } from "react-icons/md";
 import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { useAuth, SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import Link from "next/link";
 import { FiColumns, FiEdit3 } from "react-icons/fi";
 import {
   setIsSidebarVisible,
@@ -22,9 +23,11 @@ const Navbar = ({
     <nav className="h-[12vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
       {!isSidebarVisible ? (
         <div className=" flex gap-5 items-center">
-          <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
-            TubeTalk
-          </h1>
+          <Link href="/">
+            <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+              TubeTalk
+            </h1>
+          </Link>
           <button onClick={() => dispatch(setIsSidebarVisible(true))}>
             <FiColumns className=" h-5 w-5 text-[#6e7191]" />
           </button>
@@ -44,7 +47,7 @@ const Navbar = ({
             <span>
               <FiYoutube />
             </span>
-            <span>{title}</span>
+            <span title={title}>{title.split("|")[0]}</span>
           </div>
         ) : null}
       </div>
@@ -55,7 +58,12 @@ const Navbar = ({
           </div>
           <div className="flex flex-col ">
             <p className="text-[0.7rem] -mt-[3px] text-black">
-              <span className=" font-bold">{tokenLeft}</span> Tokens left
+              <span
+                className={`font-bold ${tokenLeft <= 1000 && "text-red-500"}`}
+              >
+                {tokenLeft}
+              </span>{" "}
+              Tokens left
             </p>
           </div>
         </div>

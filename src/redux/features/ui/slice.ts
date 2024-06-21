@@ -4,11 +4,14 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 export type UIState = {
     isAddVideoPopup: boolean,
     isSidebarVisible: boolean,
+    currentVideoId: string,
 }
 
 const initialState: UIState = {
     isAddVideoPopup: false,
     isSidebarVisible: true,
+    currentVideoId: "",
+
 }
 
 export const uiSlice = createSlice({
@@ -20,10 +23,14 @@ export const uiSlice = createSlice({
         },
         setIsSidebarVisible: (state, action: PayloadAction<boolean>) => {
             state.isSidebarVisible = action.payload
+        },
+
+        setCurrentVideoId: (state, action: PayloadAction<string>) => {
+            state.currentVideoId = action.payload
         }
     },
 })
 
-export const { setIsAddVideoPopup, setIsSidebarVisible } = uiSlice.actions
+export const { setIsAddVideoPopup, setCurrentVideoId, setIsSidebarVisible } = uiSlice.actions
 
 export default uiSlice.reducer

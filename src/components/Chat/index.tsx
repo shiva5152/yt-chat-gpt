@@ -6,11 +6,15 @@ import ChatLoader from "../ChatLoader";
 import Loader from "../Loader";
 import useChatScroll from "../hooks/useChatScroll";
 import Message from "./Message";
+import { setCurrentVideoId } from "@/redux/features/ui/slice";
+import { useAppDispatch } from "@/redux/hooks";
+import { askQuery } from "@/redux/features/user/api";
 
 const page = ({ videoId }: { videoId: string }) => {
+  const dispatch = useAppDispatch();
   const [tokens, setTokens] = useState();
   const [userText, setUserText] = useState("");
-  const { data, error, isLoading, refetch } = useGetChatLogQuery(videoId);
+  const { data, error, isLoading } = useGetChatLogQuery(videoId);
 
   const [chatLog, setChatLog] = useState<
     { user: string; msg: string | React.JSX.Element }[]
@@ -23,14 +27,13 @@ const page = ({ videoId }: { videoId: string }) => {
     setChatLog((prev) => [...prev, { user: "client", msg: userText }]);
     setChatLog((prev) => [...prev, { user: "gpt", msg: <ChatLoader /> }]);
     setUserText("");
-    const res = await askQuery(`/api/chat/${videoId}?query=${userText}`);
+    const res = await askQuery(`/chat/${videoId}?query=${userText}`, dispatch);
+
     setChatLog((prev) => [
       ...prev.slice(0, -1),
       {
         user: "gpt",
-        msg: res.success
-          ? res.response
-          : "!!! Something went wrong. If this issue persists please contact us.",
+        msg: res.success ? res.response : res,
       },
     ]);
   };
@@ -53,6 +56,13 @@ const page = ({ videoId }: { videoId: string }) => {
       );
     }
   }, [isLoading]);
+
+  useEffect(() => {
+    dispatch(setCurrentVideoId(videoId));
+    return () => {
+      dispatch(setCurrentVideoId(""));
+    };
+  }, []);
 
   return (
     <section
@@ -123,16 +133,6 @@ const page = ({ videoId }: { videoId: string }) => {
       </div>
     </section>
   );
-};
-
-const askQuery = async (url: string) => {
-  try {
-    const response = await fetch(url);
-    const responseData = await response.json();
-    return responseData;
-  } catch (error) {
-    throw error;
-  }
 };
 
 export default page;
