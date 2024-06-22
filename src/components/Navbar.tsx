@@ -20,7 +20,7 @@ const Navbar = ({
   const dispatch = useAppDispatch();
   const { isSidebarVisible } = useAppSelector((state) => state.ui);
   return (
-    <nav className="h-[12vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
+    <nav className="max-md:px-2  h-[10vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
       {!isSidebarVisible ? (
         <div className=" flex gap-5 items-center">
           <Link href="/">
@@ -43,7 +43,7 @@ const Navbar = ({
       ) : null}
       <div>
         {title ? (
-          <div className="font-semibold text-lg flex  items-center gap-2">
+          <div className="max-md:hidden font-semibold text-lg flex  items-center gap-2">
             <span>
               <FiYoutube />
             </span>
@@ -67,7 +67,7 @@ const Navbar = ({
             </p>
           </div>
         </div>
-        <div className="h-8 w-8">
+        <div className="max-md:hidden h-8 w-8">
           <SignedIn>
             <UserButton />
           </SignedIn>

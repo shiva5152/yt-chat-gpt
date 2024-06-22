@@ -24,7 +24,7 @@ const Sidebar = () => {
   };
   return (
     <div
-      className={`h-screen relative w-[20%] bg-white shadow-md flex justify-between flex-col ${sidebarClass}`}
+      className={`max-md:hidden h-screen relative w-[20%] bg-white shadow-md flex justify-between flex-col ${sidebarClass}`}
     >
       <div>
         <div>

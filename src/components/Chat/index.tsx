@@ -66,13 +66,13 @@ const page = ({ videoId }: { videoId: string }) => {
 
   return (
     <section
-      style={{ height: "calc(100vh - 12vh)" }}
+      style={{ height: "calc(100vh - 10vh)" }}
       className=" w-full bg-[#f2f8fd] items-center justify-between   flex flex-col "
     >
       <div
         ref={chatContainerRef}
         style={{ scrollBehavior: "smooth" }}
-        className="styled-scrollbar px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
+        className="max-md:px-2 max-md:mt-0 styled-scrollbar px-20 py-6 overflow-x-hidden flex flex-col gap-3 w-[100%] mt-4 "
       >
         {isLoading ? (
           <div className="h-full flex gap-5 mt-20 flex-col justify-center items-center">
@@ -97,8 +97,8 @@ const page = ({ videoId }: { videoId: string }) => {
         )}
       </div>
 
-      <div className="w-full pt-2">
-        <div className=" align-bottom rounded-[20px] bg-white shadow-md  w-[50%] mx-auto p-1 mb-5">
+      <div className="w-full pt-2 max-md:px-2 max-md:py-0">
+        <div className=" max-md:w-full max-md:mb-2 align-bottom rounded-[20px] bg-white shadow-md  w-[50%] mx-auto p-1 mb-5">
           <div className="w-full flex justify-between px-4 py-2">
             <input
               className="w-[80%] focus:outline-none text-black bg-white focus:ring-transparent"
