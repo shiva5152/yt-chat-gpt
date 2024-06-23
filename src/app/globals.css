@@ -12,6 +12,10 @@ body {
   height: var(--doc-height);
 }
 
+.full-window-height {
+  height: var(--doc-height);
+}
+
 .fade-in {
   opacity: 0;
   animation: fadeInAnimation 1.5s forwards;

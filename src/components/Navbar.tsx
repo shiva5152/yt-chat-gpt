@@ -20,27 +20,29 @@ const Navbar = ({
   const dispatch = useAppDispatch();
   const { isSidebarVisible } = useAppSelector((state) => state.ui);
   return (
-    <nav className="max-md:px-2  h-[10vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
-      {!isSidebarVisible ? (
-        <div className=" flex gap-5 items-center">
-          <Link href="/">
-            <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
-              TubeTalk
-            </h1>
-          </Link>
-          <button onClick={() => dispatch(setIsSidebarVisible(true))}>
-            <FiColumns className=" h-5 w-5 text-[#6e7191]" />
-          </button>
-          <button
-            onClick={() => dispatch(setIsAddVideoPopup(true))}
-            className="flex text-[#6e7191] font-xl justify-between w-full items-center"
-          >
-            <span>
-              <FiEdit3 className="h-6 w-6 " />
-            </span>
-          </button>
-        </div>
-      ) : null}
+    <nav className="max-md:px-2 max-md:shadow-md  h-[10vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
+      <div
+        className={`flex max-md:flex-row-reverse max-md:gap-3 gap-5 items-center ${
+          isSidebarVisible && "hidden"
+        }`}
+      >
+        <Link href="/">
+          <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+            TubeTalk
+          </h1>
+        </Link>
+        <button onClick={() => dispatch(setIsSidebarVisible(true))}>
+          <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+        </button>
+        <button
+          onClick={() => dispatch(setIsAddVideoPopup(true))}
+          className="max-md:hidden flex text-[#6e7191] font-xl justify-between w-full items-center"
+        >
+          <span>
+            <FiEdit3 className="h-6 w-6 " />
+          </span>
+        </button>
+      </div>
       <div>
         {title ? (
           <div className="max-md:hidden font-semibold text-lg flex  items-center gap-2">

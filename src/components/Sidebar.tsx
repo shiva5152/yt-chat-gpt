@@ -9,6 +9,7 @@ import {
 } from "@/redux/features/ui/slice";
 import Link from "next/link";
 import { notifySuccess } from "@/utils/toast";
+import { useAuth, SignedIn, UserButton, useUser } from "@clerk/nextjs";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -16,6 +17,7 @@ const Sidebar = () => {
   const { isSidebarVisible, currentVideoId } = useAppSelector(
     (state) => state.ui
   );
+  const { user } = useUser();
 
   const sidebarClass = isSidebarVisible ? "sidebar-visible" : "sidebar-hidden";
   const handleGetMoreToken = () => {
@@ -24,65 +26,75 @@ const Sidebar = () => {
   };
   return (
     <div
-      className={`max-md:hidden h-screen relative w-[20%] bg-white shadow-md flex justify-between flex-col ${sidebarClass}`}
+      className={`max-md:absolute max-sm:z-20 full-window-height max-md:w-[35%] backdrop-blur-[5px] max-sm:w-full relative w-[20%] ${sidebarClass}`}
     >
-      <div>
+      <div
+        className={`full-window-height w-full max-sm:w-[80%] bg-white shadow-md flex justify-between flex-col`}
+      >
         <div>
-          <div className="px-5 h-[12vh] flex justify-between items-center bg-white ">
-            <Link href="/">
-              <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
-                TubeTalk
-              </h1>
-            </Link>
-            <button onClick={() => dispatch(setIsSidebarVisible(false))}>
-              <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+          <div>
+            <div className="px-5 h-[10vh] flex justify-between items-center bg-white ">
+              <Link href="/">
+                <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+                  TubeTalk
+                </h1>
+              </Link>
+              <button onClick={() => dispatch(setIsSidebarVisible(false))}>
+                <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+              </button>
+            </div>
+          </div>
+          <div className="bg-[#eaeaea]  rounded-md mx-3 py-2 px-3">
+            <button
+              onClick={() => dispatch(setIsAddVideoPopup(true))}
+              className="flex text-[#6e7191] font-xl justify-between w-full items-center"
+            >
+              <span className="font-semibold"> Add New Video </span>
+              <span>
+                <FiEdit3 className="h-6 w-6 " />
+              </span>
             </button>
           </div>
+          <div className="styled-scrollbar overflow-x-hidden">
+            <ul className="max-md:gap-1 flex px-3 flex-col mt-10 gap-2 w-full">
+              {videos.map((video, index) => {
+                return (
+                  <li key={index}>
+                    <Link
+                      title={video.title}
+                      href={`/chat/${video.videoId}`}
+                      className={`${
+                        currentVideoId == video.videoId && "bg-[#eaeaea]"
+                      } text-start px-3 text-md py-2 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
+                    >
+                      <span className="mt-1">
+                        <FiYoutube />
+                      </span>
+                      <span>{video.title.slice(0, 30)}...</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
         </div>
-        <div className="hover:bg-[#eaeaea]  rounded-md mx-5 p-2">
+        <div className="h-[12vh] max-md:flex-col max:md:gap-3 relative bottom-0 flex  px-5">
+          <div className="md:hidden flex items-center gap-4 h-8 w-8">
+            <SignedIn>
+              <UserButton />
+            </SignedIn>
+            <span className="text-black">{user?.fullName}</span>
+          </div>
           <button
-            onClick={() => dispatch(setIsAddVideoPopup(true))}
-            className="flex text-[#6e7191] font-xl justify-between w-full items-center"
+            onClick={handleGetMoreToken}
+            className="flex items-center gap-1 text-black "
           >
-            <span className="font-semibold"> Add New Video </span>
-            <span>
-              <FiEdit3 className="h-6 w-6 " />
+            <span className="h-6 w-6 mt-2">
+              <MdCardMembership />
             </span>
+            <span>Get More Tokens</span>
           </button>
         </div>
-        <div className="styled-scrollbar overflow-x-hidden">
-          <ul className="flex px-3 flex-col mt-10 gap-2 w-full">
-            {videos.map((video, index) => {
-              return (
-                <li key={index}>
-                  <Link
-                    title={video.title}
-                    href={`/chat/${video.videoId}`}
-                    className={`${
-                      currentVideoId == video.videoId && "bg-[#eaeaea]"
-                    } text-start px-3 py-2 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
-                  >
-                    <span className="mt-1">
-                      <FiYoutube />
-                    </span>
-                    <span>{video.title.slice(0, 30)}...</span>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </div>
-      </div>
-      <div className="h-[10vh] relative bottom-0 flex items-center px-5">
-        <button
-          onClick={handleGetMoreToken}
-          className="flex items-center gap-1 text-black "
-        >
-          <span className="h-6 w-6 mt-2">
-            <MdCardMembership />
-          </span>
-          <span>Get More Tokens</span>
-        </button>
       </div>
     </div>
   );

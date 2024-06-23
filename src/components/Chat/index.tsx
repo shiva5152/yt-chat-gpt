@@ -91,7 +91,7 @@ const page = ({ videoId }: { videoId: string }) => {
                 height={100}
               />
             </div>
-            <p className="text-[#6e7191]">
+            <p className="text-[#6e7191] text-center ">
               Start the conversation now! Ask TubeTalk anything about the video.
             </p>
           </div>
