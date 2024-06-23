@@ -46,7 +46,7 @@ const AddVideo = () => {
   };
 
   return (
-    <div className=" h-screen transition-all duration-500 ease-in-out fixed inset-0 backdrop-blur-[5px] w-full  flex justify-center items-center">
+    <div className=" h-screen transition-all z-20 duration-500 ease-in-out fixed inset-0 backdrop-blur-[5px] w-full  flex justify-center items-center">
       <div className="max-md:flex-col max-md:gap-4 max-md:px-4 max-md:mx-1 flex relative border-[1px] border-[#d3d3d3] p-10 rounded-lg bg-white justify-center items-center">
         <div className="max-md:top-2 max-md:right-2 absolute top-5 right-5">
           <button onClick={() => dispatch(setIsAddVideoPopup(false))}>

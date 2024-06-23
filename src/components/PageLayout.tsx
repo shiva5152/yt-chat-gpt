@@ -7,6 +7,9 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { useAuth } from "@clerk/nextjs";
 import { useEffect } from "react";
 import useDocumentHeight from "./hooks/useDocHeight";
+import useWindowSize from "./hooks/useWindowSize";
+import { setIsSidebarVisible } from "@/redux/features/ui/slice";
+
 type TParams = {
   videoId: string;
 };
@@ -19,6 +22,7 @@ const PageLayout = ({
   params?: TParams;
 }) => {
   useDocumentHeight();
+  const { width } = useWindowSize();
   const videoId = params?.videoId;
   const { isLoaded } = useAuth();
   const dispatch = useAppDispatch();
@@ -33,6 +37,9 @@ const PageLayout = ({
   useEffect(() => {
     getUser(dispatch);
   }, []);
+  useEffect(() => {
+    width > 768 && dispatch(setIsSidebarVisible(true));
+  }, [width]);
   return (
     <main className="h-full flex bg-[#f2f8fd]">
       {!isLoaded ? (

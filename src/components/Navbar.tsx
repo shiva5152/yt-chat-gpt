@@ -20,7 +20,7 @@ const Navbar = ({
   const dispatch = useAppDispatch();
   const { isSidebarVisible } = useAppSelector((state) => state.ui);
   return (
-    <nav className="max-md:px-2 max-md:shadow-md  h-[10vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
+    <nav className="max-md:px-2  h-[10vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
       <div
         className={`flex max-md:flex-row-reverse max-md:gap-3 gap-5 items-center ${
           isSidebarVisible && "hidden"

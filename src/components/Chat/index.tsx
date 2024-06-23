@@ -103,7 +103,7 @@ const page = ({ videoId }: { videoId: string }) => {
           <div className="w-full flex justify-between px-4 py-2">
             <input
               className="w-[80%] focus:outline-none text-black bg-white focus:ring-transparent"
-              placeholder="Ask the Shiller"
+              placeholder="Ask the any this about the video..."
               type="text"
               name="text"
               value={userText}

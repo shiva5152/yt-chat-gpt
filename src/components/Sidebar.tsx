@@ -10,10 +10,12 @@ import {
 import Link from "next/link";
 import { notifySuccess } from "@/utils/toast";
 import { useAuth, SignedIn, UserButton, useUser } from "@clerk/nextjs";
+import useWindowSize from "./hooks/useWindowSize";
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
   const { videos } = useAppSelector((state) => state.user);
+  const { width } = useWindowSize();
   const { isSidebarVisible, currentVideoId } = useAppSelector(
     (state) => state.ui
   );
@@ -24,9 +26,14 @@ const Sidebar = () => {
     console.log("Get More Tokens");
     return notifySuccess("Soon we are Adding paid plans. Stay Tuned!");
   };
+
+  const handleAddVideo = () => {
+    dispatch(setIsAddVideoPopup(true));
+    width < 768 && dispatch(setIsSidebarVisible(false));
+  };
   return (
     <div
-      className={`max-md:absolute max-sm:z-20 full-window-height max-md:w-[35%] backdrop-blur-[5px] max-sm:w-full relative w-[20%] ${sidebarClass}`}
+      className={`max-md:absolute max-sm:z-10 full-window-height max-md:w-[35%] backdrop-blur-[5px] max-sm:w-full relative w-[20%] ${sidebarClass}`}
     >
       <div
         className={`full-window-height w-full max-sm:w-[80%] bg-white shadow-md flex justify-between flex-col`}
@@ -46,7 +53,7 @@ const Sidebar = () => {
           </div>
           <div className="bg-[#eaeaea]  rounded-md mx-3 py-2 px-3">
             <button
-              onClick={() => dispatch(setIsAddVideoPopup(true))}
+              onClick={handleAddVideo}
               className="flex text-[#6e7191] font-xl justify-between w-full items-center"
             >
               <span className="font-semibold"> Add New Video </span>
@@ -61,6 +68,9 @@ const Sidebar = () => {
                 return (
                   <li key={index}>
                     <Link
+                      onClick={() =>
+                        width < 768 ? dispatch(setIsSidebarVisible(false)) : {}
+                      }
                       title={video.title}
                       href={`/chat/${video.videoId}`}
                       className={`${
@@ -79,11 +89,11 @@ const Sidebar = () => {
           </div>
         </div>
         <div className="h-[12vh] max-md:flex-col max:md:gap-3 relative bottom-0 flex  px-5">
-          <div className="md:hidden flex items-center gap-4 h-8 w-8">
+          <div className="md:hidden w-full  flex items-center gap-4 h-8">
             <SignedIn>
               <UserButton />
             </SignedIn>
-            <span className="text-black">{user?.fullName}</span>
+            <span className="text-black ">{user?.fullName}</span>
           </div>
           <button
             onClick={handleGetMoreToken}

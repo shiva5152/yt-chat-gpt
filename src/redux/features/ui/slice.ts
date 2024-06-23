@@ -9,7 +9,7 @@ export type UIState = {
 
 const initialState: UIState = {
     isAddVideoPopup: false,
-    isSidebarVisible: true,
+    isSidebarVisible: false,
     currentVideoId: "",
 
 }
