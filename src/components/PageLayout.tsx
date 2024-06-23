@@ -2,12 +2,11 @@
 import AddVideo from "@/components/AddVideo";
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
-import { useAuth } from "@clerk/nextjs";
-import { useRouter } from "next/navigation";
-import { useEffect } from "react";
-import { useAppSelector, useAppDispatch } from "@/redux/hooks";
 import { getUser } from "@/redux/features/user/api";
-
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { useAuth } from "@clerk/nextjs";
+import { useEffect } from "react";
+import useDocumentHeight from "./hooks/useDocHeight";
 type TParams = {
   videoId: string;
 };
@@ -19,6 +18,7 @@ const PageLayout = ({
   children: React.ReactNode;
   params?: TParams;
 }) => {
+  useDocumentHeight();
   const videoId = params?.videoId;
   const { isLoaded } = useAuth();
   const dispatch = useAppDispatch();
@@ -34,7 +34,7 @@ const PageLayout = ({
     getUser(dispatch);
   }, []);
   return (
-    <main className="min-h-screen flex bg-[#f2f8fd]">
+    <main className="h-full flex bg-[#f2f8fd]">
       {!isLoaded ? (
         <div>Loading...</div>
       ) : (

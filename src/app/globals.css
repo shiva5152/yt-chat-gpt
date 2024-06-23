@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --doc-height: 100%;
+}
+
+html,
+body {
+  height: 100vh; /* fallback for Js load */
+  height: var(--doc-height);
+}
+
 .fade-in {
   opacity: 0;
   animation: fadeInAnimation 1.5s forwards;

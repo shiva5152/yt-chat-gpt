@@ -9,10 +9,11 @@ import Message from "./Message";
 import { setCurrentVideoId } from "@/redux/features/ui/slice";
 import { useAppDispatch } from "@/redux/hooks";
 import { askQuery } from "@/redux/features/user/api";
+import useDynamicHeight from "../hooks/useDynamicHeight";
 
 const page = ({ videoId }: { videoId: string }) => {
+  const height = useDynamicHeight();
   const dispatch = useAppDispatch();
-  const [tokens, setTokens] = useState();
   const [userText, setUserText] = useState("");
   const { data, error, isLoading } = useGetChatLogQuery(videoId);
 
@@ -66,7 +67,7 @@ const page = ({ videoId }: { videoId: string }) => {
 
   return (
     <section
-      style={{ height: "calc(100vh - 10vh)" }}
+      style={{ height: height }}
       className=" w-full bg-[#f2f8fd] items-center justify-between   flex flex-col "
     >
       <div

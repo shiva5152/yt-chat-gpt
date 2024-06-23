@@ -18,7 +18,6 @@ const Message = ({
     >
       {message.user === "gpt" && (
         <div className="avatar mt-2">
-          {/* <div className="h-6 w-6 bg-green-500 rounded-full mr-7"></div> */}
           <div className="h-8 w-8 ">
             <Image
               src={"/img/robot.png"}
@@ -31,7 +30,7 @@ const Message = ({
         </div>
       )}
       <div
-        className={`question flex max-w-[50%] shadow-md  py-2 px-4 rounded-lg ${
+        className={`question max-md:max-w-full flex max-w-[50%] shadow-md  py-2 px-4 rounded-lg ${
           message.user === "client"
             ? "bg-[#1a4fba] text-white"
             : "bg-white text-black"
