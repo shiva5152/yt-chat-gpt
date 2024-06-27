@@ -33,9 +33,11 @@ const Sidebar = () => {
   };
   return (
     <div
+      onClick={() => dispatch(setIsSidebarVisible(false))}
       className={`max-md:absolute max-sm:z-10 full-window-height max-md:w-[35%] backdrop-blur-[5px] max-sm:w-full relative w-[20%] ${sidebarClass}`}
     >
       <div
+        onClick={(e) => e.stopPropagation()}
         className={`full-window-height w-full max-sm:w-[80%] bg-white shadow-md flex justify-between flex-col`}
       >
         <div>
