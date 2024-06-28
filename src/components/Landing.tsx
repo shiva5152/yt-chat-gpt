@@ -15,7 +15,7 @@ const Landing = () => {
           content. Dive into deeper discussions, get instant clarifications, and
           enjoy a smarter way to engage with your favorite videos.
         </p>
-        <p className="mt-4">
+        <p className="mt-4 text-center">
           *Paste your YouTube video link below to start conversation.
         </p>
       </div>
