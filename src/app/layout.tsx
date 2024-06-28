@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
-        <body className={inter.className}>
+        <body className={inter.className + "dark:bg-[#141414]"}>
           <AppThemeProvider>
             <ToastProvider>
               <ReduxProvider>{children}</ReduxProvider>

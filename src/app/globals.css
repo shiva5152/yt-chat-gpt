@@ -34,7 +34,7 @@ body {
 /* chat Loader */
 .dot {
   animation: dot-pulse 0.9s ease both infinite;
-  background: #1a4fba;
+  background: #5f4dec;
   border-radius: 100%;
   display: inline-block;
   height: 12px;
@@ -86,7 +86,7 @@ body {
 
 .styled-scrollbar::-webkit-scrollbar {
   width: 15px;
-  background-color: #1a4fba;
+  background-color: #5f4dec;
   border-radius: 10px !important;
 }
 
@@ -96,18 +96,18 @@ body {
 }
 
 .styled-scrollbar::-webkit-scrollbar-thumb {
-  background: #1a4fba;
+  background: #5f4dec;
   border-radius: 10px !important;
 }
 
 .styled-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #1a4fba;
+  background: #5f4dec;
 }
 
 /* Firefox */
 .styled-scrollbar {
   scrollbar-width: thin;
-  scrollbar-color: #1a4fba white;
+  scrollbar-color: #5f4dec white;
 }
 
 /* Internet Explorer and older versions of Edge */

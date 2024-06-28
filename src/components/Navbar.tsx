@@ -9,6 +9,7 @@ import {
   setIsSidebarVisible,
   setIsAddVideoPopup,
 } from "@/redux/features/ui/slice";
+import ThemeSwitch from "./ThemeSwitch";
 
 const Navbar = ({
   title,
@@ -20,23 +21,23 @@ const Navbar = ({
   const dispatch = useAppDispatch();
   const { isSidebarVisible } = useAppSelector((state) => state.ui);
   return (
-    <nav className="max-md:px-2  h-[10vh] px-10 text-black  bg-[#f2f8fd] flex justify-between items-center">
+    <nav className="max-md:px-2 dark:bg-[#141414]  h-[10vh] px-10 text-black dark:text-[#a8a8a8]  bg-[#f2f8fd] flex justify-between items-center">
       <div
         className={`flex max-md:flex-row-reverse max-md:gap-3 gap-5 items-center ${
           isSidebarVisible && "hidden"
         }`}
       >
         <Link href="/">
-          <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+          <h1 className="text-[1.5rem] dark:text-[#a8a8a8] text-[#5f4dec]  font-semibold">
             TubeTalk
           </h1>
         </Link>
         <button onClick={() => dispatch(setIsSidebarVisible(true))}>
-          <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+          <FiColumns className=" h-5 w-5 text-[#a8a8a8]" />
         </button>
         <button
           onClick={() => dispatch(setIsAddVideoPopup(true))}
-          className="max-md:hidden flex text-[#6e7191] font-xl justify-between w-full items-center"
+          className="max-md:hidden flex text-[#a8a8a8] font-xl justify-between w-full items-center"
         >
           <span>
             <FiEdit3 className="h-6 w-6 " />
@@ -54,6 +55,7 @@ const Navbar = ({
         ) : null}
       </div>
       <div className="flex items-center gap-3">
+        <ThemeSwitch />
         <div className="gap-1 p-2 rounded-md flex items-center bg-[#eaeaea] ">
           <div className="h-fit">
             <MdGeneratingTokens className="h-8 w-8 text-black" />

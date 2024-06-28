@@ -68,7 +68,7 @@ const page = ({ videoId }: { videoId: string }) => {
   return (
     <section
       style={{ height: height }}
-      className=" w-full bg-[#f2f8fd] items-center justify-between   flex flex-col "
+      className=" w-full bg-[#f2f8fd] dark:bg-[#141414] items-center justify-between   flex flex-col "
     >
       <div
         ref={chatContainerRef}
@@ -91,7 +91,7 @@ const page = ({ videoId }: { videoId: string }) => {
                 height={100}
               />
             </div>
-            <p className="text-[#6e7191] text-center ">
+            <p className="text-[#6e7191] dark:text-[#a8a8a8] text-center ">
               Start the conversation now! Ask TubeTalk anything about the video.
             </p>
           </div>
@@ -99,10 +99,10 @@ const page = ({ videoId }: { videoId: string }) => {
       </div>
 
       <div className="w-full pt-2 max-md:px-2 max-md:py-0">
-        <div className=" max-md:w-full max-md:mb-2 align-bottom rounded-[20px] bg-white shadow-md  w-[50%] mx-auto p-1 mb-5">
+        <div className=" max-md:w-full max-md:mb-2 align-bottom rounded-[20px] bg-white shadow-md  dark:bg-[#323232] dark:text-white w-[50%] mx-auto p-1 mb-5">
           <div className="w-full flex justify-between px-4 py-2">
             <input
-              className="w-[80%] focus:outline-none text-black bg-white focus:ring-transparent"
+              className="w-[80%] focus:outline-none text-black bg-white dark:bg-[#323232] dark:text-white focus:ring-transparent"
               placeholder="Ask the any this about the video..."
               type="text"
               name="text"
@@ -114,7 +114,7 @@ const page = ({ videoId }: { videoId: string }) => {
 
             <button onClick={handleSubmit} id="sendButton" className="p-2">
               <svg
-                stroke="#272d34"
+                stroke="#5f4dec"
                 fill="none"
                 strokeWidth="2"
                 viewBox="0 0 24 24"

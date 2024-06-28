@@ -41,7 +41,7 @@ const PageLayout = ({
     width > 768 && dispatch(setIsSidebarVisible(true));
   }, [width]);
   return (
-    <main className="h-full flex bg-[#f2f8fd]">
+    <main className="h-full flex dark:bg-[#141414] bg-[#f2f8fd]">
       {!isLoaded ? (
         <div>Loading...</div>
       ) : (

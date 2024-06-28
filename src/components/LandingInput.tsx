@@ -13,7 +13,7 @@ const LandingInput = () => {
       className="w-full flex justify-between px-4 py-2"
     >
       <input
-        className="w-[80%] focus:outline-none text-black bg-white focus:ring-transparent"
+        className="w-[80%] focus:outline-none dark:bg-[#323232] dark:text-white text-black bg-white focus:ring-transparent"
         placeholder="Start New Conversation"
         type="text"
         name="text"
@@ -22,7 +22,7 @@ const LandingInput = () => {
 
       <button id="sendButton" className="p-2">
         <svg
-          stroke="#272d34"
+          stroke="#5f4dec"
           fill="none"
           strokeWidth="2"
           viewBox="0 0 24 24"

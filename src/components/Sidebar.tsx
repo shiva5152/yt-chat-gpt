@@ -34,29 +34,29 @@ const Sidebar = () => {
   return (
     <div
       onClick={() => dispatch(setIsSidebarVisible(false))}
-      className={`max-md:absolute max-sm:z-10 full-window-height max-md:w-[35%] backdrop-blur-[5px] max-sm:w-full relative w-[20%] ${sidebarClass}`}
+      className={`max-md:absolute max-sm:z-10 full-window-height  max-md:w-[35%] backdrop-blur-[5px] max-sm:w-full relative w-[20%] ${sidebarClass}`}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`full-window-height w-full max-sm:w-[80%] bg-white shadow-md flex justify-between flex-col`}
+        className={`full-window-height w-full max-sm:w-[80%] dark:bg-[#323232] bg-white shadow-md flex justify-between flex-col`}
       >
         <div>
           <div>
-            <div className="px-5 h-[10vh] flex justify-between items-center bg-white ">
+            <div className="px-5 h-[10vh] flex justify-between items-center dark:bg-[#323232] bg-white ">
               <Link href="/">
-                <h1 className="text-[1.5rem] text-[#1a4fba]  font-semibold">
+                <h1 className="text-[1.5rem] text-[#5f4dec] dark:text-[#a8a8a8] font-semibold">
                   TubeTalk
                 </h1>
               </Link>
               <button onClick={() => dispatch(setIsSidebarVisible(false))}>
-                <FiColumns className=" h-5 w-5 text-[#6e7191]" />
+                <FiColumns className=" h-5 w-5 text-[#a8a8a8]" />
               </button>
             </div>
           </div>
           <div className="bg-[#eaeaea]  rounded-md mx-3 py-2 px-3">
             <button
               onClick={handleAddVideo}
-              className="flex text-[#6e7191] font-xl justify-between w-full items-center"
+              className="flex text-[#6e7191] dark:text-black font-xl justify-between w-full items-center"
             >
               <span className="font-semibold"> Add New Video </span>
               <span>
@@ -76,8 +76,9 @@ const Sidebar = () => {
                       title={video.title}
                       href={`/chat/${video.videoId}`}
                       className={`${
-                        currentVideoId == video.videoId && "bg-[#eaeaea]"
-                      } text-start px-3 text-md py-2 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
+                        currentVideoId == video.videoId &&
+                        "bg-[#eaeaea] dark:bg-[#5f4dec] dark:text-white"
+                      } text-start px-3 text-md py-2 transition-all duration-200 ease-in-out rounded-md hover:bg-[#eaeaea] dark:hover:bg-[#5f4dec] dark:hover:text-white dark:text-[#a8a8a8] whitespace-nowrap overflow-x-hidden flex  item-center gap-2 text-[#6e7191]`}
                     >
                       <span className="mt-1">
                         <FiYoutube />
@@ -95,11 +96,11 @@ const Sidebar = () => {
             <SignedIn>
               <UserButton />
             </SignedIn>
-            <span className="text-black ">{user?.fullName}</span>
+            <span className="text-black dark:text-white">{user?.fullName}</span>
           </div>
           <button
             onClick={handleGetMoreToken}
-            className="flex items-center gap-1 text-black "
+            className="flex items-center gap-1 dark:text-white text-black "
           >
             <span className="h-6 w-6 mt-2">
               <MdCardMembership />
