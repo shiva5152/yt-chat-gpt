@@ -63,6 +63,7 @@ const handleExistingVideo = async (video: TVideo, user: TUser) => {
 
         user.videos.push(video._id);
         await user.save();
+        await Chat.create({ videoId: video.videoId, userId: user.userId, conversations: [] });
     } catch (error) {
         return errorResponse(error instanceof Error ? error.message : "Something went wrong");
     }
