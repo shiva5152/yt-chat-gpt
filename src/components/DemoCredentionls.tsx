@@ -43,7 +43,7 @@ const DemoCredentionls = () => {
       <div className="text-sm flex items-center gap-2">
         <label>Demo Password</label>
         <div
-          onClick={handleCopyEmail}
+          onClick={handleCopyPassword}
           className="cursor-pointer bg-black flex items-center gap-2 text-white rounded-md p-2"
         >
           <span>123***********demo</span>
